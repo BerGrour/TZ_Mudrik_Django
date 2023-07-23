@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Последние проекты{% endblock %}
+
+{% block content %}
+
+    {% if latest_projects_list %}
+
+        {% for a in latest_projects_list %}
+            <p><a href="{% url 'projects:s_number' a.id %}">{{a.project_title}}</a></p>
+        {% endfor %}
+
+    {% else %}
+        Проекты не найдены
+    {% endif %}
+
+{% endblock %}

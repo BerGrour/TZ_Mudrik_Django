@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{{project.project_title}}{% endblock %}
+
+{% block content %}
+<h1>{{project.project_title}} ({{project.project_state}})</h1>
+<p><strong>Руководитель проекта: </strong>{{project.project_lead}}</p>
+<p><strong>Описание: </strong>{{project.project_description}}</p>
+<!-- Для задач -->
+<hr><h3>Задачи:</h3>
+
+{% if list_tasks %}
+
+    {% for i in list_tasks %}
+    <p>
+        <p>{{forloop.counter}}. {{i.task_name}} ({{i.task_state}})</p>
+        <ol>{{i.task_description}}</ol>
+        <p><em>срок исполнения: {{i.task_period}}</p></em>
+    </p>
+    {% endfor %}
+
+{% else %}
+Комментарии не найдены
+{% endif %}
+
+</hr>
+
+
+<hr><h3>Комментарии:</h3>
+
+{% if list_comment %}
+
+    {% for i in list_comment %}
+    <p>
+        <p>{{i.comment_text}}</p>
+        <em>{{i.comment_date}}</em>
+    </p>
+    {% endfor %}
+
+{% else %}
+Комментарии не найдены
+{% endif %}
+
+<hr>
+
+<form action="{% url 'projects:add_comment' project.id %}" method="POST">
+
+    {% csrf_token %}
+
+    <textarea name="text" required="" placeholder="Текст комментария" cols="30" rows="10"></textarea><br>
+    
+    <button type="submit">Отправить комментарий</button>
+</form>
+{% endblock %}
